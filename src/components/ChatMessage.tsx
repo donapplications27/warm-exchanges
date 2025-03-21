@@ -28,7 +28,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
     <div
       className={cn(
         "py-6 transition-all duration-300 ease-out",
-        message.type === 'human' ? 'bg-chat-message-user' : 'bg-chat-message-ai',
+        message.type === 'human' ? 'bg-accent/40' : 'bg-secondary/40',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       )}
     >
@@ -54,7 +54,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
               <span className="text-xs text-muted-foreground">{formattedTime}</span>
             </div>
             
-            <div className="prose prose-sm prose-invert max-w-none">
+            <div className="prose prose-sm dark:prose-invert max-w-none">
               {message.type === 'ai' ? (
                 <ReactMarkdown>{message.content}</ReactMarkdown>
               ) : (

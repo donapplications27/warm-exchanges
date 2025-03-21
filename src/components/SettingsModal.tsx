@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { useTheme } from '@/hooks/use-theme';
 
 interface SettingsModalProps {
   open: boolean;
@@ -26,6 +27,8 @@ const formSchema = z.object({
 type SettingsFormValues = z.infer<typeof formSchema>;
 
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
+  const { setTheme } = useTheme();
+  
   // Get settings from localStorage
   const loadSettings = (): SettingsFormValues => {
     if (typeof window === "undefined") {
@@ -62,6 +65,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const onSubmit = (data: SettingsFormValues) => {
     try {
       localStorage.setItem('app-settings', JSON.stringify(data));
+      setTheme(data.theme);
       toast.success("Settings saved successfully");
       onOpenChange(false);
       
@@ -76,9 +80,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-[400px] sm:max-w-[540px] bg-chat-dark border-chat-border">
+      <SheetContent className="w-[400px] sm:max-w-[540px] bg-background border-border">
         <SheetHeader>
-          <SheetTitle className="text-white">Application Settings</SheetTitle>
+          <SheetTitle className="text-foreground">Application Settings</SheetTitle>
         </SheetHeader>
         
         <div className="mt-6">

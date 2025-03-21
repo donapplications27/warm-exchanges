@@ -21,7 +21,7 @@ const ChatContent = () => {
       <main className="flex-1 overflow-y-auto scrollbar-thin">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center p-8 text-center">
-            <div className="bg-chat-accent/20 p-6 rounded-xl mb-4">
+            <div className="bg-secondary/40 p-6 rounded-xl mb-4">
               <h2 className="text-3xl font-semibold mb-2">Welcome to AI Chat</h2>
               <p className="text-muted-foreground max-w-lg">
                 Start a conversation by typing a message below. Your AI assistant is ready to help with any questions.
@@ -46,7 +46,7 @@ const Chat = () => {
   return (
     <ChatProvider>
       <TooltipProvider>
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-background">
           <ConversationSidebar />
           <ChatContent />
         </div>
