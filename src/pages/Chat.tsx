@@ -6,6 +6,7 @@ import ChatInput from '@/components/ChatInput';
 import { useChat } from '@/hooks/use-chat';
 import { ChatProvider } from '@/hooks/use-chat';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const ChatContent = () => {
   const { messages, isLoading } = useChat();
@@ -18,7 +19,7 @@ const ChatContent = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <main className="flex-1 overflow-y-auto scrollbar-thin">
+      <ScrollArea className="flex-1 h-full" type="always" scrollbars="vertical">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center p-8 text-center">
             <div className="bg-secondary/40 p-6 rounded-xl mb-4">
@@ -36,7 +37,7 @@ const ChatContent = () => {
             <div ref={messagesEndRef} />
           </div>
         )}
-      </main>
+      </ScrollArea>
       <ChatInput />
     </div>
   );
