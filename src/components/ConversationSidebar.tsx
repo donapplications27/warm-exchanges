@@ -4,13 +4,28 @@ import { useChat } from '@/hooks/use-chat';
 import { Conversation } from '@/types';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
-import { PlusIcon, XIcon, ChevronLeftIcon, ChevronRightIcon, LogOutIcon } from 'lucide-react';
+import { 
+  PlusIcon, 
+  XIcon, 
+  ChevronLeftIcon, 
+  ChevronRightIcon, 
+  LogOutIcon,
+  MapIcon,
+  Settings 
+} from 'lucide-react';
 import { format } from 'date-fns';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { MapModal } from '@/components/MapModal';
+import { SettingsModal } from '@/components/SettingsModal';
 
 const ConversationSidebar = () => {
   const { conversations, currentSessionId, selectConversation, startNewConversation } = useChat();
   const { signOut } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -95,16 +110,57 @@ const ConversationSidebar = () => {
       </div>
 
       <div className="p-4 border-t border-chat-border">
-        <Button
-          variant="ghost"
-          size={collapsed ? "icon" : "default"}
-          className={`${collapsed ? 'mx-auto w-10 h-10' : 'w-full'} justify-start`}
-          onClick={signOut}
-        >
-          <LogOutIcon className="h-5 w-5" />
-          {!collapsed && <span className="ml-2">Sign Out</span>}
-        </Button>
+        <div className="flex flex-col space-y-2">
+          <TooltipProvider delayDuration={300}>
+            <div className="flex justify-center space-x-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon" 
+                    className="h-10 w-10"
+                    onClick={() => setIsMapOpen(true)}
+                  >
+                    <MapIcon className="h-5 w-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  <p>Map</p>
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-10 w-10"
+                    onClick={() => setIsSettingsOpen(true)}
+                  >
+                    <Settings className="h-5 w-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  <p>Settings</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
+
+          <Button
+            variant="ghost"
+            size={collapsed ? "icon" : "default"}
+            className={`${collapsed ? 'mx-auto w-10 h-10' : 'w-full'} justify-start`}
+            onClick={signOut}
+          >
+            <LogOutIcon className="h-5 w-5" />
+            {!collapsed && <span className="ml-2">Sign Out</span>}
+          </Button>
+        </div>
       </div>
+
+      <MapModal open={isMapOpen} onOpenChange={setIsMapOpen} />
+      <SettingsModal open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
     </div>
   );
 };

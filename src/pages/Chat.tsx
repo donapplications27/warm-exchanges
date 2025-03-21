@@ -5,6 +5,7 @@ import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 import { useChat } from '@/hooks/use-chat';
 import { ChatProvider } from '@/hooks/use-chat';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const ChatContent = () => {
   const { messages, isLoading } = useChat();
@@ -44,10 +45,12 @@ const ChatContent = () => {
 const Chat = () => {
   return (
     <ChatProvider>
-      <div className="flex h-screen overflow-hidden">
-        <ConversationSidebar />
-        <ChatContent />
-      </div>
+      <TooltipProvider>
+        <div className="flex h-screen overflow-hidden">
+          <ConversationSidebar />
+          <ChatContent />
+        </div>
+      </TooltipProvider>
     </ChatProvider>
   );
 };
