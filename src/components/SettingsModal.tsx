@@ -19,6 +19,8 @@ const formSchema = z.object({
   supabaseUrl: z.string().url({ message: "Please enter a valid URL" }),
   supabaseKey: z.string().min(20, { message: "API key is too short" }),
   mapApiKey: z.string().optional(),
+  agentEndpoint: z.string().url({ message: "Please enter a valid URL" }),
+  bearerToken: z.string(),
   theme: z.enum(["dark", "light", "system"], {
     required_error: "Please select a theme",
   }),
@@ -36,6 +38,8 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
         supabaseUrl: 'https://vglszhhommhffiqaxyfz.supabase.co',
         supabaseKey: '',
         mapApiKey: '',
+        agentEndpoint: 'http://localhost:8001/api/pydantic-github-agent',
+        bearerToken: 'abc',
         theme: 'dark',
       };
     }
@@ -53,6 +57,8 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
       supabaseUrl: 'https://vglszhhommhffiqaxyfz.supabase.co',
       supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZnbHN6aGhvbW1oZmZpcWF4eWZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzMjQwNDEsImV4cCI6MjA1NzkwMDA0MX0.Bsz7peQbQvaDLxwqtTv5r43O8IisOpeJl0jYCqxBDnw',
       mapApiKey: '',
+      agentEndpoint: 'http://localhost:8001/api/pydantic-github-agent',
+      bearerToken: 'abc',
       theme: 'dark',
     };
   };
@@ -139,6 +145,45 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                     </FormControl>
                     <FormDescription>
                       Optional: For displaying maps in the application
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="agentEndpoint"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Agent Endpoint</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="http://localhost:8001/api/pydantic-github-agent" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      The API endpoint for the agent service
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="bearerToken"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bearer Token</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="password"
+                        placeholder="Bearer token for API authentication" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Authentication token for API requests
                     </FormDescription>
                   </FormItem>
                 )}

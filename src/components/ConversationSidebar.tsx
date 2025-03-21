@@ -11,7 +11,8 @@ import {
   ChevronRightIcon, 
   LogOutIcon,
   MapIcon,
-  Settings 
+  Settings,
+  HardHat
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -19,6 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { MapModal } from '@/components/MapModal';
 import { SettingsModal } from '@/components/SettingsModal';
+import { TechnicianModal } from '@/components/TechnicianModal';
 
 const ConversationSidebar = () => {
   const { conversations, currentSessionId, selectConversation, startNewConversation } = useChat();
@@ -26,6 +28,7 @@ const ConversationSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isTechnicianOpen, setIsTechnicianOpen] = useState(false);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -133,6 +136,22 @@ const ConversationSidebar = () => {
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
+                    size="icon" 
+                    className="h-10 w-10"
+                    onClick={() => setIsTechnicianOpen(true)}
+                  >
+                    <HardHat className="h-5 w-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  <p>Technician Coordinates</p>
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
                     size="icon"
                     className="h-10 w-10"
                     onClick={() => setIsSettingsOpen(true)}
@@ -161,6 +180,7 @@ const ConversationSidebar = () => {
 
       <MapModal open={isMapOpen} onOpenChange={setIsMapOpen} />
       <SettingsModal open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
+      <TechnicianModal open={isTechnicianOpen} onOpenChange={setIsTechnicianOpen} />
     </div>
   );
 };
